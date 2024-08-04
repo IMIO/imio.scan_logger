@@ -9,7 +9,7 @@
 
   <!--include package=".browser" /-->
 
-  <!--genericsetup:registerProfile
+  <genericsetup:registerProfile
       name="default"
       title="imio.scan_logger"
       directory="profiles/default"
@@ -30,7 +30,7 @@
   <utility
       factory=".setuphandlers.HiddenProfiles"
       name="imio.scan_logger-hiddenprofiles"
-      /-->
+      />
 
   <!-- -*- extra stuff goes here -*- -->
 
