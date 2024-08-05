@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from Products.CMFPlone.interfaces import INonInstallable
+from plone.base.interfaces.installable import INonInstallable
 from zope.interface import implementer
 
 
@@ -20,6 +20,8 @@ class HiddenProfiles(object):
 def post_install(context):
     """Post install script"""
     # Do something at the end of the installation of this package.
+    site = context.getSite()
+    site.manage_permission("plone.restapi: Use REST API", ("Manager", "Site Administrator", "Contributor"), acquire=0)
 
 
 def uninstall(context):
