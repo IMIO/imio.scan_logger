@@ -8,6 +8,7 @@
   <!--i18n:registerTranslations directory="locales" /-->
 
   <!--include package=".browser" /-->
+  <include package="plone.restapi"/>
 
   <genericsetup:registerProfile
       name="default"
@@ -32,6 +33,12 @@
       name="imio.scan_logger-hiddenprofiles"
       />
 
-  <!-- -*- extra stuff goes here -*- -->
+  <plone:service
+      method="POST"
+      factory=".services.MessageReceiver"
+      for="Products.CMFCore.interfaces.ISiteRoot"
+      permission="plone.restapi.UseRESTAPI"
+      name="@message-receiver"
+      />
 
 </configure>

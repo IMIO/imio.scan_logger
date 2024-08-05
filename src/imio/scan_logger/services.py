@@ -1,0 +1,45 @@
+# -*- coding: utf-8 -*-
+from datetime import datetime
+from imio.scan_logger import BLDT_DIR
+from plone.restapi.deserializer import json_body
+from plone.restapi.services import Service
+
+import os
+import re
+
+
+LOG_DIR = os.path.join(BLDT_DIR, "var", "scan_logs")
+
+
+class MessageReceiver(Service):
+
+    def reply(self):
+        data = json_body(self.request)
+        client_id = data.get("client_id", None)
+        message = data.get("message", None)
+
+        if not client_id or not message:
+            self.request.response.setStatus(400)
+            return {
+                "status": "error",
+                "message": "client_id and message are required in json body"
+            }
+        if not re.match(r'^0\d{5}$', client_id):
+            return {
+                "status": "error",
+                "message": "client_id must be 6 digits long, start with zero, and contain only digits."
+            }
+
+        client_dir = os.path.join(LOG_DIR, client_id)
+        os.makedirs(client_dir, exist_ok=True)
+        file_path = os.path.join(client_dir, 'messages.log')
+        current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+        # Open the file in append mode and write the message with the timestamp
+        with open(file_path, 'a') as file:
+            file.write(f"{current_time} {message}\n")
+
+        return {
+            "status": "success",
+            "message": "Log received"
+        }
