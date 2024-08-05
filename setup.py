@@ -48,7 +48,7 @@ setup(
     install_requires=[
         'setuptools',
         # -*- Extra requirements: -*-
-        'z3c.jbot',
+        'imio.helpers>=1.0.0rc4',
         'plone.api>=1.8.4',
         'plone.app.dexterity',
     ],
