@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 from imio.scan_logger import BLDT_DIR
+from imio.scan_logger import log
+from imio.scan_logger.utils import send_notification
 from plone.restapi.deserializer import json_body
 from plone.restapi.services import Service
 
@@ -38,6 +40,8 @@ class MessageReceiver(Service):
         # Open the file in append mode and write the message with the timestamp
         with open(file_path, 'a') as file:
             file.write(f"{current_time} {message}\n")
+
+        send_notification(f"Message from client {client_id}", message.split("\n"))
 
         return {
             "status": "success",
