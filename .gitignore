@@ -26,3 +26,5 @@ buildout-cache/
 include/
 lib/
 local/
+src/*
+!src/imio/
