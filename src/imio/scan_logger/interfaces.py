@@ -13,7 +13,4 @@ class IImioScanLoggerLayer(IDefaultBrowserLayer):
 class ISettings(Interface):
     """Interface for the form fields."""
 
-    notification_emails = schema.TextLine(
-        title=_(u"Notification emails"),
-        description=_("Can be separated by a comma")
-    )
+    notification_emails = schema.TextLine(title=_(u"Notification emails"), description=_("Can be separated by a comma"))
