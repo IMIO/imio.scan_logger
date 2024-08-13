@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
-from imio.scan_logger import BLDT_DIR
+from imio.scan_logger import CLIENTS_DIC
+from imio.scan_logger import LOG_DIR
 from imio.scan_logger.utils import send_notification
 from plone.restapi.deserializer import json_body
 from plone.restapi.services import Service
 
 import os
 import re
-
-
-LOG_DIR = os.path.join(BLDT_DIR, "var", "scan_logs")
 
 
 class MessageReceiver(Service):
@@ -26,7 +24,11 @@ class MessageReceiver(Service):
                 "status": "error",
                 "message": "client_id must be 6 digits long, start with zero, and contain only digits.",
             }
-
+        if client_id not in CLIENTS_DIC:
+            send_notification(
+                f"Unknown client {client_id} in scan_logger",
+                [f"Cannot find {client_id} in clients dic: len is {len(CLIENTS_DIC)}"],
+            )
         client_dir = os.path.join(LOG_DIR, client_id)
         os.makedirs(client_dir, exist_ok=True)
         file_path = os.path.join(client_dir, "messages.log")
@@ -36,6 +38,6 @@ class MessageReceiver(Service):
         with open(file_path, "a") as file:
             file.write(f"{current_time} {message}\n")
 
-        send_notification(f"Message from client {client_id}", message.split("\n"))
+        send_notification(f"Message from {client_id} - {CLIENTS_DIC.get(client_id)}", message.split("\n"))
 
         return {"status": "success", "message": "Log received"}

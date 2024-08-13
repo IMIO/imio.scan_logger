@@ -37,7 +37,7 @@ Plone product to save log files or messages from scan clients
    Features
    --------
 
-   - Can be bullet points
+   - @message-receiver endpoint to get rest message from clients
 
 
 Translations
