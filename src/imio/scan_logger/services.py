@@ -15,6 +15,7 @@ class MessageReceiver(Service):
         data = json_body(self.request)
         client_id = data.get("client_id", None)
         message = data.get("message", None)
+        level = data.get("level", "")
 
         if not client_id or not message:
             self.request.response.setStatus(400)
@@ -38,6 +39,7 @@ class MessageReceiver(Service):
         with open(file_path, "a") as file:
             file.write(f"{current_time} {message}\n")
 
-        send_notification(f"Message from {client_id} - {CLIENTS_DIC.get(client_id)}", message.split("\n"))
+        if level == "ERROR":
+            send_notification(f"Message from {client_id} - {CLIENTS_DIC.get(client_id)}", message.split("\n"))
 
         return {"status": "success", "message": "Log received"}
