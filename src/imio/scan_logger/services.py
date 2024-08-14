@@ -16,6 +16,7 @@ class MessageReceiver(Service):
         client_id = data.get("client_id", None)
         message = data.get("message", None)
         level = data.get("level", "")
+        hostname = data.get("hostname", "")
 
         if not client_id or not message:
             self.request.response.setStatus(400)
@@ -27,7 +28,7 @@ class MessageReceiver(Service):
             }
         if client_id not in CLIENTS_DIC:
             send_notification(
-                f"Unknown client {client_id} in scan_logger",
+                f"{client_id} ({hostname}), unknown client id",
                 [f"Cannot find {client_id} in clients dic: len is {len(CLIENTS_DIC)}"],
             )
         client_dir = os.path.join(LOG_DIR, client_id)
@@ -37,9 +38,11 @@ class MessageReceiver(Service):
 
         # Open the file in append mode and write the message with the timestamp
         with open(file_path, "a") as file:
-            file.write(f"{current_time} {message}\n")
+            file.write(f"{current_time} {hostname} | {message}\n")
 
         if level == "ERROR":
-            send_notification(f"Message from {client_id} - {CLIENTS_DIC.get(client_id)}", message.split("\n"))
+            send_notification(
+                f"Message from {client_id} ({hostname}) - {CLIENTS_DIC.get(client_id)}", message.split("\n")
+            )
 
         return {"status": "success", "message": "Log received"}

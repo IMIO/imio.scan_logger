@@ -5,8 +5,8 @@ Changelog
 0.2.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Added hostname in mail info and log.
+  [sgeulette]
 
 0.2.0 (2024-08-14)
 ------------------
