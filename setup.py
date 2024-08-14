@@ -16,7 +16,7 @@ long_description = "\n\n".join(
 
 setup(
     name="imio.scan_logger",
-    version="0.2.1.dev0",
+    version="0.2.1",
     description="Plone product to save log files or messages from scan clients",
     long_description=long_description,
     # Get more from https://pypi.org/classifiers/
