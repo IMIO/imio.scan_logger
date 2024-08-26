@@ -7,6 +7,8 @@ Changelog
 
 - Added symlinked client folder to ease search and verification.
   [sgeulette]
+- Enclosed all treatment in try except to send notification when an error occurs.
+  [sgeulette]
 
 0.2.1 (2024-08-14)
 ------------------

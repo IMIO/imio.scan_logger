@@ -18,33 +18,34 @@ class MessageReceiver(Service):
         message = data.get("message", None)
         level = data.get("level", "")
         hostname = data.get("hostname", "")
+        try:
+            if not client_id or not message:
+                self.request.response.setStatus(400)
+                return {"status": "error", "message": "client_id and message are required in json body"}
+            if not re.match(r"^0\d{5}$", client_id):
+                return {
+                    "status": "error",
+                    "message": "client_id must be 6 digits long, start with zero, and contain only digits.",
+                }
+            if client_id not in CLIENTS_DIC:
+                send_notification(
+                    f"{client_id} ({hostname}), unknown client id",
+                    [f"Cannot find {client_id} in clients dic: len is {len(CLIENTS_DIC)}"],
+                )
 
-        if not client_id or not message:
-            self.request.response.setStatus(400)
-            return {"status": "error", "message": "client_id and message are required in json body"}
-        if not re.match(r"^0\d{5}$", client_id):
-            return {
-                "status": "error",
-                "message": "client_id must be 6 digits long, start with zero, and contain only digits.",
-            }
-        if client_id not in CLIENTS_DIC:
-            send_notification(
-                f"{client_id} ({hostname}), unknown client id",
-                [f"Cannot find {client_id} in clients dic: len is {len(CLIENTS_DIC)}"],
-            )
+            client_dir = create_log_dirs(client_id)
+            file_path = os.path.join(client_dir, "messages.log")
+            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        client_dir = create_log_dirs(client_id)
-        file_path = os.path.join(client_dir, "messages.log")
-        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            # Open the file in append mode and write the message with the timestamp
+            with open(file_path, "a") as file:
+                file.write(f"{current_time} {hostname} | {message}\n")
 
-        # Open the file in append mode and write the message with the timestamp
-        with open(file_path, "a") as file:
-            file.write(f"{current_time} {hostname} | {message}\n")
-
-        if level == "ERROR":
-            send_notification(
-                f"Message from {client_id} ({hostname}) - {get_client_name(client_id)}",
-                message.split("\n"),
-            )
-
+            if level == "ERROR":
+                send_notification(
+                    f"Message from {client_id} ({hostname}) - {get_client_name(client_id)}",
+                    message.split("\n"),
+                )
+        except Exception as err:
+            send_notification(f"Problem with message from {client_id} ({hostname}) '{message}'", str(err).split("\n"))
         return {"status": "success", "message": "Log received"}
