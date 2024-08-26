@@ -17,7 +17,7 @@ def create_log_dirs(client_id):
     if client_name:
         dest = os.path.join(LOG_DIR, "name", client_name)
         if not os.path.exists(dest):
-            os.symlink(client_dir, dest)
+            os.symlink(os.path.join("..", "code", client_id), dest)
     return client_dir
 
 

@@ -5,8 +5,8 @@ Changelog
 0.3.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Symlink correction.
+  [sgeulette]
 
 0.3.0 (2024-08-26)
 ------------------
