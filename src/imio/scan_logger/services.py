@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 from imio.scan_logger import CLIENTS_DIC
-from imio.scan_logger import LOG_DIR
+from imio.scan_logger.utils import create_log_dirs
+from imio.scan_logger.utils import get_client_name
 from imio.scan_logger.utils import send_notification
 from plone.restapi.deserializer import json_body
 from plone.restapi.services import Service
@@ -31,8 +32,8 @@ class MessageReceiver(Service):
                 f"{client_id} ({hostname}), unknown client id",
                 [f"Cannot find {client_id} in clients dic: len is {len(CLIENTS_DIC)}"],
             )
-        client_dir = os.path.join(LOG_DIR, client_id)
-        os.makedirs(client_dir, exist_ok=True)
+
+        client_dir = create_log_dirs(client_id)
         file_path = os.path.join(client_dir, "messages.log")
         current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -42,7 +43,8 @@ class MessageReceiver(Service):
 
         if level == "ERROR":
             send_notification(
-                f"Message from {client_id} ({hostname}) - {CLIENTS_DIC.get(client_id)}", message.split("\n")
+                f"Message from {client_id} ({hostname}) - {get_client_name(client_id)}",
+                message.split("\n"),
             )
 
         return {"status": "success", "message": "Log received"}

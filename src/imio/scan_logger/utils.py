@@ -1,8 +1,29 @@
 # -*- coding: utf-8 -*-
 from imio.helpers.emailer import create_html_email
 from imio.helpers.emailer import send_email
+from imio.scan_logger import CLIENTS_DIC
 from imio.scan_logger import log
+from imio.scan_logger import LOG_DIR
 from plone import api
+
+import os
+
+
+def create_log_dirs(client_id):
+    """Create log directories."""
+    client_dir = os.path.join(LOG_DIR, "code", client_id)
+    os.makedirs(client_dir, exist_ok=True)
+    client_name = get_client_name(client_id, sep="_")
+    if client_name:
+        dest = os.path.join(LOG_DIR, "name", client_name)
+        if not os.path.exists(dest):
+            os.symlink(client_dir, dest)
+    return client_dir
+
+
+def get_client_name(code, sep=" "):
+    """Get client name from code."""
+    return CLIENTS_DIC.get(code, "").replace("|", sep)
 
 
 def send_notification(title, lines):

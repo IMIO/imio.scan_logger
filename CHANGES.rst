@@ -5,8 +5,8 @@ Changelog
 0.2.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Added symlinked client folder to ease search and verification.
+  [sgeulette]
 
 0.2.1 (2024-08-14)
 ------------------
