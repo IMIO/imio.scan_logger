@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.2.2 (unreleased)
+0.3.0 (2024-08-26)
 ------------------
 
 - Added symlinked client folder to ease search and verification.
