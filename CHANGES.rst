@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.3.1 (unreleased)
+0.3.1 (2024-08-26)
 ------------------
 
 - Symlink correction.
