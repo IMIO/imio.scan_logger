@@ -11,6 +11,8 @@ Changelog
   [sgeulette]
 - Included hostname in filename for customer with multiple pcs.
   [sgeulette]
+- Added client version in email and log
+  [sgeulette]
 
 0.2.1 (2024-08-14)
 ------------------
