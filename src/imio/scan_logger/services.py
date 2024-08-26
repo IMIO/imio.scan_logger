@@ -34,12 +34,12 @@ class MessageReceiver(Service):
                 )
 
             client_dir = create_log_dirs(client_id)
-            file_path = os.path.join(client_dir, "messages.log")
+            file_path = os.path.join(client_dir, f"{hostname}_messages.log")
             current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
             # Open the file in append mode and write the message with the timestamp
             with open(file_path, "a") as file:
-                file.write(f"{current_time} {hostname} | {message}\n")
+                file.write(f"{current_time} {message}\n")
 
             if level == "ERROR":
                 send_notification(

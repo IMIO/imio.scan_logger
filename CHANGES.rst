@@ -9,6 +9,8 @@ Changelog
   [sgeulette]
 - Enclosed all treatment in try except to send notification when an error occurs.
   [sgeulette]
+- Included hostname in filename for customer with multiple pcs.
+  [sgeulette]
 
 0.2.1 (2024-08-14)
 ------------------
