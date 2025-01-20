@@ -51,7 +51,7 @@ setup(
     install_requires=[
         "setuptools",
         # -*- Extra requirements: -*-
-        "imio.helpers>=1.0.0rc4",
+        "imio.helpers>=1.2.1",
         "plone.api>=1.8.4",
         "plone.app.dexterity",
     ],

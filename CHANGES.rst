@@ -5,8 +5,8 @@ Changelog
 0.3.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Dependency version upgrade.
+  [sgeulette]
 
 0.3.1 (2024-08-26)
 ------------------
